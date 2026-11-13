@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leader area · ACL Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="leader.css">
+  <link rel="stylesheet" href="fun.css">
+</head>
+<body class="leader">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="sparkle" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0Z"/></symbol></svg>
+  <header class="site-header">
+    <a class="brand" href="#view-dashboard">
+      <img src="club-logo.png" alt="Arts &amp; Culture &amp; Languages Club" class="logo" onerror="this.replaceWith(document.getElementById('wordmark').content.cloneNode(true))">
+      <img src="uni-logo.png" alt="Arab Open University" class="logo uni" onerror="this.style.display='none'">
+    </a>
+    <template id="wordmark"><span class="wordmark" aria-label="ACL">A<i>C</i>L<svg class="spark"><use href="#sparkle"/></svg></span></template>
+    <nav>
+      <a href="#view-dashboard"><span class="ico" aria-hidden="true">🏠</span> Dashboard</a>
+      <a href="#view-events"><span class="ico" aria-hidden="true">📅</span> Events</a>
+      <a href="#view-people"><span class="ico" aria-hidden="true">👥</span> People</a>
+      <a href="#view-auditions"><span class="ico" aria-hidden="true">🎤</span> Auditions &amp; forms</a>
+      <a href="#view-media"><span class="ico" aria-hidden="true">📷</span> Media &amp; bloopers</a>
+      <a href="#view-website"><span class="ico" aria-hidden="true">✏️</span> Website</a>
+      <a href="#view-import"><span class="ico" aria-hidden="true">📥</span> Import</a>
+      <a href="member.html?preview=member" target="_blank" rel="noopener"><span class="ico" aria-hidden="true">👀</span> See as member</a>
+      <a href="member.html?preview=visitor" target="_blank" rel="noopener"><span class="ico" aria-hidden="true">🕶️</span> See as visitor</a>
+      <span id="who" class="who"></span>
+      <button id="logout" class="login" type="button">Log out</button>
+    </nav>
+  </header>
+
+  <main id="top" class="leader-main">
+    <div class="topbar"><h1 id="viewTitle">Dashboard</h1><p id="viewHint"></p></div>
+
+    <div class="view" id="view-dashboard" data-title="Dashboard" data-hint="What is happening in the club right now." hidden>
+      <div id="dashRoot"></div>
+    </div>
+
+    <div class="view cols" id="view-events" data-title="Events" data-hint="Post events with start and end times, write the recap afterwards, see who registered and who came." hidden>
+      <section id="post" class="panel">
+        <form id="eventForm" class="dash-form">
+          <h2 id="eventHeading">Post an event</h2>
+          <label>Title <input name="title" required maxlength="120"></label>
+          <label>Starts <input name="start" type="datetime-local" required></label>
+          <label>Ends <input name="end" type="datetime-local" required></label>
+          <label>Place <input name="place" required maxlength="120"></label>
+          <label>About (shown before the event) <textarea name="about" rows="3" maxlength="1500"></textarea></label>
+          <label>What happened (the recap, shown on the Past events page once the event is over) <textarea name="recap" rows="4" maxlength="3000"></textarea></label>
+          <button id="eventSubmit" type="submit">Post event</button>
+          <button id="eventCancel" type="button" class="export" hidden>Cancel editing</button>
+          <p id="eventMsg" role="status"></p>
+        </form>
+      </section>
+      <section id="manage" class="panel">
+        <h2>Events and registrations</h2>
+        <p class="hint">After an event ends it moves to the members' <strong>Past events</strong> page automatically. Members can then see the recap, posters and photos but cannot register. Upload posters and cards with <em>Linked event</em> set, and name the photo album like the event (or give it the same date).</p>
+        <div id="leaderEvents"></div>
+        <div id="regPanel"></div>
+      </section>
+    </div>
+
+    <div class="view" id="view-people" data-title="People" data-hint="Find anyone by name, student ID or email." hidden>
+      <section id="finder" class="panel"></section>
+      <section id="members" class="panel">
+        <h2>Website members</h2>
+        <p id="memberCount" role="status">Loading…</p>
+        <p class="warn">This list shows personal data (names and emails). Never share screenshots or exports outside the club leaders.</p>
+        <label class="search">Search by name or email <input id="memberSearch" type="search" autocomplete="off"></label>
+        <div class="table-wrap"><table id="memberTable"></table></div>
+        <button id="memberExport" class="export" type="button">Export members to CSV</button>
+      </section>
+    </div>
+
+    <div class="view" id="view-auditions" data-title="Auditions &amp; forms" data-hint="Open or close auditions, add time slots, then decide: accepted, waitlist or not this time." hidden>
+      <section id="forms" class="panel">
+        <h2>Auditions and forms</h2>
+        <p>Open or close an audition, build your own questions, add time slots, and see who applied. In <strong>Applications</strong> you can set each person's result and interview time, then email them.</p>
+        <div id="formList"></div>
+        <form id="formEditor" class="dash-form">
+          <h3 id="formHeading">New audition or form</h3>
+          <label>Type
+            <select name="kind"><option value="audition">Audition (one per team)</option><option value="form">Form</option></select>
+          </label>
+          <label>Title (for an audition, the team name) <input name="title" required maxlength="100"></label>
+          <label>Description <textarea name="description" rows="3" maxlength="600"></textarea></label>
+          <label class="check"><input type="checkbox" name="open"> Open for answers</label>
+          <h4>Questions</h4>
+          <div id="fieldList"></div>
+          <button type="button" id="addField" class="export">Add a question</button>
+          <button type="submit">Save</button>
+          <button type="button" id="formCancel" class="export" hidden>Cancel editing</button>
+          <p id="formMsg" role="status"></p>
+        </form>
+        <div id="slotPanel"></div>
+        <div id="subPanel"></div>
+      </section>
+    </div>
+
+    <div class="view" id="view-media" data-title="Media &amp; bloopers" data-hint="Posters, trailers, photo albums and the funny behind-the-scenes clips." hidden>
+      <section id="bloopers" class="panel"></section>
+      <section id="media" class="panel">
+        <h2>Posters, trailers and memories</h2>
+        <p class="warn">Only post photos of people who agreed to be shown. Members (and leaders) can see everything you upload here.</p>
+
+        <h3>Posters and cards</h3>
+        <div id="posterAdmin"></div>
+        <form id="posterForm" class="dash-form">
+          <h4>Add a poster or card</h4>
+          <label>Title <input name="title" required maxlength="100"></label>
+          <label>Linked event (optional, it then also appears on the Past events page)
+            <select name="eventTitle" id="posterEvent"><option value="">Not linked to an event</option></select>
+          </label>
+          <label>Picture <input name="file" type="file" accept="image/*" required></label>
+          <button type="submit">Add poster</button>
+          <p id="posterMsg" role="status"></p>
+        </form>
+
+        <h3>Trailers</h3>
+        <p>Put the video file in the <strong>videos</strong> folder next to <strong>index.html</strong>, then type its path below (for example <code>videos/welcome-night.mp4</code>). Keep files under about 10 MB.</p>
+        <div id="trailerAdmin"></div>
+        <form id="trailerForm" class="dash-form">
+          <h4>Add a trailer</h4>
+          <label>Title <input name="title" required maxlength="100"></label>
+          <label>Linked event (optional, its trailer plays in the "coming up" pop-up)
+            <select name="eventTitle" id="trailerEvent"><option value="">Not linked to an event</option></select>
+          </label>
+          <label>Video file path <input name="file" required placeholder="videos/welcome-night.mp4"></label>
+          <label>Short description <textarea name="description" rows="2" maxlength="300"></textarea></label>
+          <button type="submit">Add trailer</button>
+          <p id="trailerMsg" role="status"></p>
+        </form>
+
+        <h3>Memories (photo albums)</h3>
+        <div id="albumAdmin"></div>
+        <form id="albumForm" class="dash-form">
+          <h4 id="albumHeading">New album</h4>
+          <label>Event name <input name="title" required maxlength="100"></label>
+          <label>Date (use the event's date so it shows on the Past events page) <input name="date" type="date"></label>
+          <label>Short recap <textarea name="recap" rows="3" maxlength="800"></textarea></label>
+          <button type="submit">Save album</button>
+          <button type="button" id="albumCancel" class="export" hidden>Cancel editing</button>
+          <p id="albumMsg" role="status"></p>
+        </form>
+        <div id="photoPanel"></div>
+      </section>
+    </div>
+
+    <div class="view" id="view-website" data-title="Website" data-hint="Edit the text visitors see, and the Leaders page." hidden>
+      <section id="content" class="panel">
+        <form id="siteForm" class="dash-form">
+          <h2>Edit the website text</h2>
+          <p>Changes show on the front page and the members' pages. Leave a box empty to keep the original text.</p>
+          <label>About the club <textarea name="aboutText" rows="4" maxlength="800"></textarea></label>
+          <label>"Members" card on the front page <textarea name="memberCardText" rows="3" maxlength="400"></textarea></label>
+          <label>"Leaders" card on the front page <textarea name="leaderCardText" rows="3" maxlength="400"></textarea></label>
+          <label>Footer line <input name="footerText" maxlength="200"></label>
+          <button type="submit">Save website text</button>
+          <p id="siteMsg" role="status"></p>
+        </form>
+      </section>
+      <section id="team" class="panel">
+        <h2>Leaders page</h2>
+        <p>Add, edit or remove the people shown in the members' "Meet the leaders" section. Don't put phone numbers here, because this page's data can be read by anyone with technical knowledge.</p>
+        <div id="teamList"></div>
+        <form id="teamForm" class="dash-form">
+          <h3 id="teamHeading">Add a leader</h3>
+          <label>Name <input name="name" required maxlength="80"></label>
+          <label>Position (for example President, Media team head) <input name="role" required maxlength="80"></label>
+          <label>What they do <textarea name="does" rows="4" maxlength="1000"></textarea></label>
+          <label>Order on the page (1 = first) <input name="order" type="number" min="1" value="1"></label>
+          <h4>Delegates (helpers)</h4>
+          <div id="delegateList"></div>
+          <button type="button" id="addDelegate" class="export">Add a delegate</button>
+          <button type="submit">Save leader</button>
+          <button type="button" id="teamCancel" class="export" hidden>Cancel editing</button>
+          <p id="teamMsg" role="status"></p>
+        </form>
+      </section>
+    </div>
+
+    <div class="view" id="view-import" data-title="Import" data-hint="Bring in your old Google Forms data (as CSV files)." hidden>
+      <div id="importHost"></div>
+    </div>
+  </main>
+
+  <script type="module" src="leader.js"></script>
+  <script type="module" src="leader-forms.js"></script>
+  <script type="module" src="leader-team.js"></script>
+  <script type="module" src="leader-media.js"></script>
+  <script type="module" src="leader-bloopers.js"></script>
+</body>
+</html>

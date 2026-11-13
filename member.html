@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Member area · ACL Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Raleway:wght@400;600&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="member.css">
+  <link rel="stylesheet" href="fun.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+</head>
+<body class="member desk">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="sparkle" viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0Z"/></symbol></svg>
+  <header class="site-header slim">
+    <a class="brand" href="#view-home">
+      <img src="club-logo.png" alt="Arts &amp; Culture &amp; Languages Club" class="logo" onerror="this.replaceWith(document.getElementById('wordmark').content.cloneNode(true))">
+      <img src="uni-logo.png" alt="Arab Open University" class="logo uni" onerror="this.style.display='none'">
+    </a>
+    <template id="wordmark"><span class="wordmark" aria-label="ACL">A<i>C</i>L<svg class="spark"><use href="#sparkle"/></svg></span></template>
+    <div class="topright"><span id="who" class="who"></span><button id="logout" class="login" type="button">Log out</button></div>
+  </header>
+
+  <main id="top" class="desktop">
+    <div class="view" id="view-home" hidden>
+      <section id="visitorCard" class="visitor-card" hidden>
+        <div class="pass"><span class="hole"></span><strong>VISITOR</strong><span id="visitorName"></span></div>
+        <div>
+          <h2 id="visitorTitle"></h2>
+          <p id="visitorText"></p>
+          <button id="visitorBtn" class="cta" type="button"></button>
+        </div>
+      </section>
+      <section class="hero">
+        <svg class="float s1"><use href="#sparkle"/></svg><svg class="float s2"><use href="#sparkle"/></svg>
+        <p class="hero-label">next up</p>
+        <h1 id="next-title" class="ransom" aria-live="polite"></h1>
+        <div class="note"><p id="next-date"></p><div id="countdown" class="countdown"></div></div>
+      </section>
+      <div class="icons">
+        <a class="icon" href="#view-events"><span class="glyph" aria-hidden="true">📅</span>Events</a>
+        <a class="icon" href="#view-past"><span class="glyph" aria-hidden="true">🕘</span>Past events</a>
+        <a class="icon" href="#view-posters"><span class="glyph" aria-hidden="true">🖼️</span>Posters &amp; trailers</a>
+        <a class="icon" href="#view-bloopers" data-locked><span class="glyph" aria-hidden="true">🎬</span>Bloopers</a>
+        <a class="icon" href="#view-memories" data-locked><span class="glyph" aria-hidden="true">📷</span>Memories</a>
+        <a class="icon" href="#view-auditions" data-locked><span class="glyph" aria-hidden="true">🎤</span>Auditions</a>
+        <a class="icon" href="#view-forms" data-locked><span class="glyph" aria-hidden="true">📝</span>Forms</a>
+        <a class="icon" href="#view-leaders"><span class="glyph" aria-hidden="true">👑</span>Leaders</a>
+        <a class="icon" id="iconProfile" href="#view-profile" hidden><span class="glyph" aria-hidden="true">🪪</span>My profile</a>
+      </div>
+    </div>
+
+    <div class="view" id="view-events" hidden>
+      <section id="events" class="win-page" data-file="calendar.exe">
+        <h2>Upcoming events</h2>
+        <div class="events-layout">
+          <div id="calendar"></div>
+          <aside id="details" class="details" aria-live="polite"><h3>Pick an event</h3><p>Click an upcoming event on the calendar to see what it is and to register. Click a past event to see what happened.</p></aside>
+        </div>
+      </section>
+    </div>
+    <div class="view" id="view-past" hidden>
+      <section id="past" class="win-page" data-file="past_events.zip"><h2>Past events</h2><div id="pastList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-posters" hidden>
+      <section id="trailers" class="win-page" data-file="posters.jpg">
+        <h2>Posters and trailers</h2>
+        <h3 class="sub">Posters</h3>
+        <div id="posterList" class="card-list"></div>
+        <h3 class="sub">Trailers</h3>
+        <div id="trailerList" class="card-list"></div>
+      </section>
+    </div>
+    <div class="view" id="view-bloopers" hidden>
+      <section id="bloopers" class="win-page" data-file="bloopers.mov"><h2>Bloopers</h2><p>Behind the scenes, the funny moments, and the semester movie.</p><div id="bloopersList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-memories" hidden>
+      <section id="memories" class="win-page" data-file="memories.zip"><h2>Memories</h2><div id="albumList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-auditions" hidden>
+      <section id="auditions" class="win-page" data-file="auditions.exe"><h2>Auditions</h2><div id="auditionList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-forms" hidden>
+      <section id="forms" class="win-page" data-file="forms.doc"><h2>Forms</h2><div id="formList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-leaders" hidden>
+      <section id="leaders" class="win-page" data-file="leaders.htm"><h2>Meet the leaders</h2><p>Click a leader to see what they do.</p><div id="leadersList" class="card-list"></div></section>
+    </div>
+    <div class="view" id="view-profile" hidden></div>
+  </main>
+
+  <footer class="site-footer" data-site="footerText">Arts &amp; Culture &amp; Languages Club · Arab Open University</footer>
+
+  <nav class="taskbar" aria-label="Sections">
+    <a class="start" href="#view-home"><span aria-hidden="true">⭐</span><span class="lbl">Start</span></a>
+    <a href="#view-events"><span aria-hidden="true">📅</span><span class="lbl">Events</span></a>
+    <a href="#view-past"><span aria-hidden="true">🕘</span><span class="lbl">Past</span></a>
+    <a href="#view-posters"><span aria-hidden="true">🖼️</span><span class="lbl">Posters</span></a>
+    <a href="#view-bloopers" data-locked><span aria-hidden="true">🎬</span><span class="lbl">Bloopers</span></a>
+    <a href="#view-memories" data-locked><span aria-hidden="true">📷</span><span class="lbl">Memories</span></a>
+    <a href="#view-auditions" data-locked><span aria-hidden="true">🎤</span><span class="lbl">Auditions</span></a>
+    <a href="#view-forms" data-locked><span aria-hidden="true">📝</span><span class="lbl">Forms</span></a>
+    <a href="#view-leaders"><span aria-hidden="true">👑</span><span class="lbl">Leaders</span></a>
+    <a id="tbProfile" href="#view-profile" hidden><span aria-hidden="true">🪪</span><span class="lbl">Profile</span></a>
+    <span id="clock" class="tray" aria-hidden="true"></span>
+  </nav>
+
+  <script type="module" src="member.js"></script>
+  <script type="module" src="member-forms.js"></script>
+  <script type="module" src="team-view.js"></script>
+  <script type="module" src="member-media.js"></script>
+  <script type="module" src="member-bloopers.js"></script>
+  <script type="module" src="member-talent.js"></script>
+  <script type="module" src="member-views.js"></script>
+  <script type="module" src="member-welcome.js"></script>
+</body>
+</html>

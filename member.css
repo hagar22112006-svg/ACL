@@ -1,0 +1,74 @@
+/* ===== Member area: the Y2K "desktop" layout. Loaded after style.css and app.css, only by member.html ===== */
+body.member.desk {
+  padding-bottom: 66px;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.4) 0 28px, transparent 28px 56px),
+              repeating-linear-gradient(90deg, rgba(255,255,255,.4) 0 28px, transparent 28px 56px), var(--pink);
+  background-attachment: fixed;
+}
+.desk .site-header.slim { justify-content: space-between; }
+.topright { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+.desktop { max-width: 1100px; margin: 0 auto; padding: 26px 4vw 50px; }
+.view[hidden] { display: none; }
+.desk .site-footer { margin-top: 0; }
+
+/* home: the next-event widget and the desktop icons */
+.desk .hero { margin: 0 0 38px; padding: 48px 28px 74px; border: 2px solid var(--burgundy); box-shadow: 8px 8px 0 var(--burgundy); }
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 22px; }
+.icon { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 120px; padding: 16px 10px 12px;
+  background: #fff; color: var(--burgundy); border: 2px solid var(--burgundy); box-shadow: 5px 5px 0 var(--pink); text-decoration: none;
+  font: 700 .95rem var(--head); text-align: center; transform: rotate(-1deg); transition: transform .2s; }
+.icon:nth-child(even) { transform: rotate(1.2deg); box-shadow: 5px 5px 0 var(--sage); }
+.icon[hidden] { display: none; }
+.icon .glyph { font-size: 2.4rem; line-height: 1; }
+@media (hover: hover) { .icon:hover { transform: rotate(0) translateY(-6px); background: var(--pink); } }
+.locked-icon { opacity: .6; }
+.icon.locked-icon::after { content: "🔒"; position: absolute; top: 6px; right: 8px; font-size: 1rem; }
+
+/* every section is a program window */
+.win-page { position: relative; background: #fff; border: 2px solid var(--burgundy); box-shadow: 8px 8px 0 var(--burgundy); padding: 0 24px 26px; }
+.win-page::before { content: attr(data-file); display: block; margin: 0 -24px 20px; padding: 4px 90px 4px 10px; color: #fff; font: 500 .85rem/1.4 var(--pixel);
+  background: linear-gradient(90deg, var(--blue), #5b8fd6 65%, var(--pink)); border-bottom: 2px solid var(--burgundy); text-shadow: 1px 1px 0 rgba(0,0,0,.35); }
+.win-page::after { content: "_  □  ×"; position: absolute; top: 4px; right: 10px; color: #fff; font: 700 .85rem/1.4 var(--pixel); white-space: pre; letter-spacing: .05em; }
+.win-page > h2 { margin: 0 0 18px; font-family: var(--title); font-weight: 800; font-size: clamp(1.6rem, 4.5vw, 2.4rem); color: var(--burgundy); }
+.win-page .sub { margin-top: 26px; }
+body.member .win-page .form-card::after { display: none; }   /* the window frame replaces the stitched edge */
+
+/* taskbar */
+.taskbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; gap: 6px; height: 58px; padding: 6px 10px;
+  overflow-x: auto; background: var(--beige); border-top: 3px solid var(--burgundy); }
+.taskbar a { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; color: var(--burgundy); text-decoration: none; font: 700 .9rem var(--head);
+  background: var(--beige); border: 2px solid; border-color: #fff var(--burgundy) var(--burgundy) #fff; }
+.taskbar a[hidden] { display: none; }
+.taskbar a:hover { background: var(--pink); }
+.taskbar a.start { background: var(--pink); }
+.taskbar a.active, .taskbar a[aria-current] { background: var(--sage); border-color: var(--burgundy) #fff #fff var(--burgundy); }
+.taskbar a.locked-icon { opacity: .6; }
+.tray { flex: none; margin-inline-start: auto; padding: 4px 12px; background: #fff; border: 2px solid; border-color: var(--burgundy) #fff #fff var(--burgundy); font: 700 .85rem var(--pixel); color: var(--burgundy); }
+.desk .to-top { bottom: 74px; }
+
+/* guests and unverified accounts: a different, simpler lobby */
+body.member.desk.limited {
+  background: repeating-linear-gradient(45deg, rgba(191,204,148,.45) 0 18px, transparent 18px 36px), var(--beige); background-attachment: fixed;
+}
+.visitor-card { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin: 0 0 32px; padding: 22px 24px; background: #fff; border: 3px dashed var(--burgundy); box-shadow: 8px 8px 0 var(--sage); }
+.visitor-card[hidden] { display: none; }
+.visitor-card h2 { margin: 0 0 8px; font-family: var(--title); color: var(--burgundy); }
+.visitor-card p { margin: 0 0 14px; max-width: 60ch; }
+.pass { position: relative; flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 150px; padding: 34px 12px 18px; background: var(--pink);
+  border: 3px solid var(--burgundy); border-radius: 14px; transform: rotate(-3deg); text-align: center; }
+.pass .hole { position: absolute; top: 10px; left: 50%; width: 46px; height: 10px; margin-left: -23px; border-radius: 99px; background: var(--beige); border: 2px solid var(--burgundy); }
+.pass strong { font: 700 1.3rem var(--pixel); letter-spacing: .1em; color: var(--burgundy); }
+.pass span:last-child { font-weight: 700; word-break: break-word; unicode-bidi: plaintext; }
+body.limited .hero { box-shadow: 8px 8px 0 var(--sage); }
+
+@media (max-width: 900px) { .events-layout { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .desktop { padding: 18px 4vw 40px; }
+  .icons { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .win-page { padding: 0 14px 20px; }
+  .win-page::before { margin: 0 -14px 16px; }
+  .taskbar a .lbl { display: none; }
+  .taskbar a.active .lbl, .taskbar a[aria-current] .lbl, .taskbar a.start .lbl { display: inline; }
+  .desk .hero { padding: 36px 18px 70px; }
+  .visitor-card { padding: 18px 16px; }
+}

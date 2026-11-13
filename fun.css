@@ -1,0 +1,52 @@
+/* ===== Fun theme: rounder, bouncier, brighter, still organized. =====
+   To go back to the old look, delete the <link ... href="fun.css"> line in the page (or delete this file). */
+:root { --pop: cubic-bezier(.3, 1.7, .5, 1); }
+
+/* round, chunky "toy" shapes */
+.win-page, .panel, .form-card, .card, .details, .note, .stat, .person, .visitor-card, .icon, .quick a, .dash-form, dialog, #calendar,
+.sumcard, .counter, .poster-card, .leader-card, .result, .slot-info, .warn, .locked, .preview-bar { border-radius: 20px; }
+.win-page, .panel { border-width: 3px; }
+.win-page::before { border-radius: 16px 16px 0 0;
+  background-image: linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,0) 60%), linear-gradient(90deg, var(--blue), #5b8fd6 60%, var(--pink)); }
+.badge, .tag, .tray, .taskbar a, .who-tabs button, .fc-event { border-radius: 99px; }
+input, select, textarea { border-radius: 12px; }
+input[type="checkbox"], input[type="radio"] { border-radius: 4px; }
+.ransom .l { border-radius: 8px; }
+.taskbar { border-radius: 22px 22px 0 0; }
+.dash-form { box-shadow: 0 6px 0 var(--pink); }
+
+/* every section title gets a wavy underline */
+.win-page > h2, .panel > h2, .panel .dash-form h2, .block h2 { text-decoration: underline wavy var(--pink); text-decoration-thickness: 3px; text-underline-offset: 8px; }
+
+/* colourful desktop icons */
+.icon { border-width: 3px; box-shadow: 0 6px 0 var(--burgundy); }
+.icon:nth-child(4n+1) { background: var(--pink); }
+.icon:nth-child(4n+2) { background: var(--sage); }
+.icon:nth-child(4n+3) { background: #fff; }
+.icon:nth-child(4n)   { background: var(--beige); }
+.icon:nth-child(even) { box-shadow: 0 6px 0 var(--burgundy); }
+
+/* leader area: brighter cards on the dark grid */
+.panel { box-shadow: 0 8px 0 var(--blue), 0 0 0 5px rgba(254, 212, 231, .22); }
+.stat:nth-child(3n+1) { background: var(--pink); }
+.stat:nth-child(3n+2) { background: var(--sage); }
+.stat:nth-child(3n)   { background: var(--beige); }
+body.leader nav a { border-radius: 99px; }
+
+/* confetti dots on the member desktop */
+body.member.desk:not(.limited) {
+  background-image: radial-gradient(var(--blue) 2px, transparent 3px), radial-gradient(var(--burgundy) 1.5px, transparent 2.5px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.4) 0 28px, transparent 28px 56px), repeating-linear-gradient(90deg, rgba(255,255,255,.4) 0 28px, transparent 28px 56px);
+  background-size: 90px 90px, 130px 130px, auto, auto; background-position: 12px 20px, 60px 70px, 0 0, 0 0;
+}
+
+/* bouncy buttons (only where there is a mouse; calm for people who prefer less motion) */
+@media (prefers-reduced-motion: no-preference) {
+  button, .cta, .primary, .google-btn, .icon, .quick a, .taskbar a, .stat { transition: transform .2s var(--pop), background .2s, box-shadow .2s; }
+  @media (hover: hover) {
+    button:not(:disabled):hover, .cta:hover, .google-btn:hover, .quick a:hover, .taskbar a:hover, .stat:hover { transform: translateY(-3px) scale(1.04); }
+    .icon:hover { transform: translateY(-6px) scale(1.05); }
+    .icon:hover .glyph { animation: wiggle .55s var(--pop); }
+  }
+  @keyframes wiggle { 25% { transform: rotate(-14deg) scale(1.2); } 60% { transform: rotate(10deg) scale(1.2); } }
+}
